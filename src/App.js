@@ -13,13 +13,11 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="content">
-        {/* <div className="container"> */}
         <Routes>
           <Route path="" exact element={<Home />} />
           <Route path="*" exact element={<NotFound />} />
           <Route path="Cart" exact element={<Cart />} />
         </Routes>
-        {/* </div> */}
       </div>
     </div>
   );

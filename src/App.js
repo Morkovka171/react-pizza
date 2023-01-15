@@ -9,14 +9,16 @@ import Cart from "./pages/Cart";
 import "./scss/app.scss";
 
 function App() {
+  const [seacrhValue, setseacrhValue] = React.useState("");
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header seacrhValue={seacrhValue} setseacrhValue={setseacrhValue} />
       <div className="content">
         <Routes>
-          <Route path="" exact element={<Home />} />
+          <Route path="" exact element={<Home seacrhValue={seacrhValue} />} />
           <Route path="*" exact element={<NotFound />} />
-          <Route path="Cart" exact element={<Cart />} />
+          <Route path="cart" exact element={<Cart />} />
         </Routes>
       </div>
     </div>

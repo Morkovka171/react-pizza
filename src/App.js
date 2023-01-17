@@ -8,19 +8,23 @@ import Cart from "./pages/Cart";
 
 import "./scss/app.scss";
 
+export const SearchContext = React.createContext();
+
 function App() {
   const [seacrhValue, setseacrhValue] = React.useState("");
 
   return (
     <div className="wrapper">
-      <Header seacrhValue={seacrhValue} setseacrhValue={setseacrhValue} />
-      <div className="content">
-        <Routes>
-          <Route path="" exact element={<Home seacrhValue={seacrhValue} />} />
-          <Route path="*" exact element={<NotFound />} />
-          <Route path="cart" exact element={<Cart />} />
-        </Routes>
-      </div>
+      <SearchContext.Provider value={{ seacrhValue, setseacrhValue }}>
+        <Header />
+        <div className="content">
+          <Routes>
+            <Route path="" exact element={<Home />} />
+            <Route path="*" exact element={<NotFound />} />
+            <Route path="cart" exact element={<Cart />} />
+          </Routes>
+        </div>
+      </SearchContext.Provider>
     </div>
   );
 }

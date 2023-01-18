@@ -1,10 +1,31 @@
 import React from "react";
+import debounce from "lodash.debounce";
 import { SearchContext } from "../../App";
 
 import styles from "./Search.module.scss";
 
 const Search = () => {
-  const {seacrhValue, setseacrhValue} = React.useContext(SearchContext);
+  const [ value, setValue ] = React.useState("");
+  const { setSeacrhValue } = React.useContext(SearchContext);
+  const inputRef = React.useRef();
+
+  const onClickClear = () => {
+    setSeacrhValue("");
+    setValue("");
+    inputRef.current.focus();
+  };
+
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      setSeacrhValue(str);
+    }, 350),
+    []
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value);
+    updateSearchValue(event.target.value);
+  };
 
   return (
     <div className={styles.root}>
@@ -43,16 +64,16 @@ const Search = () => {
         />
       </svg>
       <input
-        value={seacrhValue}
-        onChange={(event) => setseacrhValue(event.target.value)}
+        ref={inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={styles.input}
         placeholder="Поиск пиццы..."
       />
-      {seacrhValue &&
-      (
+      {value && (
         <svg
+          onClick={onClickClear}
           className={styles.clearIcon}
-          onClick={()=> setseacrhValue('')}
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >

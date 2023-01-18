@@ -1,28 +1,48 @@
 import React from "react";
 import axios from "axios";
+import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
-
-import { setCategoryId } from "../redux/slices/filterSlice";
-import Categories from "../components/Categories";
-import Sort from "../components/Sort";
-import PizzaBlock from "../components/PizzaBlock";
-
-import Skeleton from "../components/PizzaBlock/Skeleton";
-import Pagination from "../components/Pagination";
+import { useNavigate } from "react-router-dom";
+import {
+  setCategoryId,
+  setCurrentPage,
+  setFilters,
+} from "../redux/slices/filterSlice";
+import { Categories, Sort, PizzaBlock, Skeleton, Pagination, sortList } from '../components';
 import { SearchContext } from "../App";
 
 const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { categoryId, sort } = useSelector((state) => state.filter);
+  const { categoryId, sort, currentPage } = useSelector(state => state.filter);
 
   const { seacrhValue } = React.useContext(SearchContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
+
+  const onChangePage = (page) => {
+    dispatch(setCurrentPage(page));
+  };
+
+  // ТУТ НЕ РАБОТАЕТ ВЗЯТИЕ ИНФЫ ИЗ URL'A В REDUX!
+  // React.useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1));
+
+  //     const sort = sortList.find((obj)=> obj.sortProperty === params.sortProperty)
+
+  //     dispatch(
+  //       setFilters({
+  //         ...params,
+  //         sort,
+  //       })
+  //     );
+  //   }
+  // }, []);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -40,9 +60,16 @@ const Home = () => {
         setItems(res.data);
         setIsLoading(false);
       });
-
-    window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, seacrhValue, currentPage]);
+
+  // React.useEffect(() => {
+  //   const queryString = qs.stringify({
+  //     sortProperty: sort.sortProperty,
+  //     categoryId,
+  //     currentPage,
+  //   });
+  //   navigate(`?${queryString}`);
+  // }, [categoryId, sort.sortProperty, currentPage]);
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
 
@@ -54,11 +81,11 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };

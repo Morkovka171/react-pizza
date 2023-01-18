@@ -11,11 +11,11 @@ import "./scss/app.scss";
 export const SearchContext = React.createContext();
 
 function App() {
-  const [seacrhValue, setseacrhValue] = React.useState("");
+  const [seacrhValue, setSeacrhValue] = React.useState("");
 
   return (
     <div className="wrapper">
-      <SearchContext.Provider value={{ seacrhValue, setseacrhValue }}>
+      <SearchContext.Provider value={{ seacrhValue, setSeacrhValue }}>
         <Header />
         <div className="content">
           <Routes>

@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
-import qs from "qs";
+// import qs from "qs";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import {
   setCategoryId,
   setCurrentPage,
@@ -10,9 +10,10 @@ import {
 } from "../redux/slices/filterSlice";
 import { Categories, Sort, PizzaBlock, Skeleton, Pagination, sortList } from '../components';
 import { SearchContext } from "../App";
+import CartEmpty from "../components/CartEmpty";
 
 const Home = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const { categoryId, sort, currentPage } = useSelector(state => state.filter);
 
@@ -81,7 +82,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort value={sort}/>
+        <Sort/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>

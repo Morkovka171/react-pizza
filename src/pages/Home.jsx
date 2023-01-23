@@ -1,8 +1,6 @@
-import React, { useRef } from "react";
-import axios from "axios";
-import qs from "qs";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 import {
   Categories,
@@ -11,26 +9,20 @@ import {
   Skeleton,
   Pagination,
 } from "../components";
-import { SearchContext } from "../App";
-import { sortList } from "../components/Sort";
 
 import {
+  selectFilter,
   setCategoryId,
   setCurrentPage,
-  setFilters,
 } from "../redux/slices/filterSlice";
-import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import PizzasError from "../components/PizzasError";
 
 const Home = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, status } = useSelector(state => state.pizza);
-  const { categoryId, sort, currentPage, searchValue } = useSelector(
-    (state) => state.filter
-  );
-
-  const { seacrhValue } = React.useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaData);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -48,24 +40,26 @@ const Home = () => {
 
     dispatch(
       fetchPizzas({
-        sortBy, 
-        order, 
-        category, 
-        search, 
+        sortBy,
+        order,
+        category,
+        search,
         currentPage: String(currentPage),
       })
-    )
+    );
 
-  window.scrollTo(0, 0);
-};
-
+    window.scrollTo(0, 0);
+  };
 
   React.useEffect(() => {
     getPizzas();
-    console.log('Запускается getPizzas');
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj) => (
+    <Link key={obj.id} to={`pizza/${obj.id}`}>
+      <PizzaBlock {...obj} />
+    </Link>
+  ));
 
   const skeletons = [...new Array(4)].map((_, index) => (
     <Skeleton key={index} />
@@ -78,11 +72,13 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {
-        status === 'error'
-          ? <PizzasError />
-          : <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
-      }
+      {status === "error" ? (
+        <PizzasError />
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
       <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );

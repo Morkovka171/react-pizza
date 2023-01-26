@@ -1,6 +1,6 @@
 import React from "react";
 
-const PizzasError = () => {
+const PizzasError:React.FC = () => {
   return (
     <>
       <div className="cart cart--empty">

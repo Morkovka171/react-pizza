@@ -1,17 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSort, setSort } from "../redux/slices/filterSlice";
+import { selectSort, setSort, TSort } from "../redux/slices/filterSlice";
 
-type SortItem = {
-  name: string;
-  sortProperty: string;
-};
-
-type PopupClick = MouseEvent & {
-  composedPath: () => Node[];
-};
-
-export const sortList: SortItem[] = [
+export const sortList: TSort[] = [
   { name: "популярности ↑", sortProperty: "rating" },
   { name: "популярности ↓", sortProperty: "-rating" },
   { name: "цене ↑", sortProperty: "price" },
@@ -27,7 +18,7 @@ export const Sort = React.memo(() => {
 
   const [open, setOpen] = React.useState(false);
 
-  const onClickListItem = (obj: SortItem) => {
+  const onClickListItem = (obj: TSort) => {
     dispatch(setSort(obj));
     setOpen(false);
   };

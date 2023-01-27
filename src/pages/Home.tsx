@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "../redux/store";
 
 import {
   Categories,
@@ -19,7 +19,8 @@ import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import PizzasError from "../components/PizzasError";
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
   const { items, status } = useSelector(selectPizzaData);
   const { categoryId, sort, currentPage, searchValue } =
     useSelector(selectFilter);
@@ -28,7 +29,7 @@ const Home: React.FC = () => {
     dispatch(setCategoryId(index));
   };
 
-  const onChangePage = (page:number) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
 
@@ -39,7 +40,6 @@ const Home: React.FC = () => {
     const search = searchValue;
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         sortBy,
         order,
@@ -57,9 +57,7 @@ const Home: React.FC = () => {
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const pizzas = items.map((obj:any) => (
-    <Link key={obj.id} to={`pizza/${obj.id}`}>
-      <PizzaBlock {...obj} />
-    </Link>
+      <PizzaBlock {...obj} key={obj.id} />
   ));
 
   const skeletons = [...new Array(4)].map((_, index) => (

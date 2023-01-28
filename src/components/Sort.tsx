@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setSort, TSort } from "../redux/slices/filterSlice";
+import { setSort } from "../redux/filter/slice";
+import { TSort } from "../redux/filter/types";
 
 type SortPopupProps = {
   value: TSort;

@@ -1,17 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-
-export type TSort = {
-  name: "популярности ↑" | "популярности ↓" | "цене ↑" | "цене ↓" | "алфавиту ↑" | "алфавиту ↓";
-  sortProperty: "rating" | "title" | "price" | "-rating" | "-title" | "-price";
-};
-
-export interface FilterSliceState {
-  searchValue: string;
-  categoryId: number;
-  currentPage: number;
-  sort: TSort;
-}
+import { FilterSliceState, TSort } from "./types";
 
 const initialState: FilterSliceState = {
   searchValue: "",
@@ -27,28 +15,25 @@ const filterSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    setCategoryId(state, action:PayloadAction<number>) {
+    setCategoryId(state, action: PayloadAction<number>) {
       state.categoryId = action.payload;
     },
-    setSearchValue(state, action:PayloadAction<string>) {
+    setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
-    setSort(state, action:PayloadAction<TSort>) {
+    setSort(state, action: PayloadAction<TSort>) {
       state.sort = action.payload;
     },
-    setCurrentPage(state, action:PayloadAction<number>) {
+    setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
-    setFilters(state, action:PayloadAction<FilterSliceState>) {
+    setFilters(state, action: PayloadAction<FilterSliceState>) {
       state.sort = action.payload.sort;
       state.currentPage = Number(action.payload.currentPage);
       state.categoryId = Number(action.payload.categoryId);
     },
   },
 });
-
-export const selectFilter = (state: RootState) => state.filter;
-export const selectSort = (state: RootState) => state.filter.sort;
 
 export const {
   setCategoryId,

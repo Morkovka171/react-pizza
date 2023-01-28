@@ -10,13 +10,13 @@ import {
   Pagination,
 } from "../components";
 
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-} from "../redux/slices/filterSlice";
-import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlice";
 import PizzasError from "../components/PizzasError";
+import { selectFilter } from "../redux/filter/selectors";
+import { setCategoryId, setCurrentPage } from "../redux/filter/slice";
+import { selectPizzaData } from "../redux/pizza/selectors";
+import { fetchPizzas } from "../redux/pizza/asyncActions";
+
+
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();

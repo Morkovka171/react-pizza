@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import {CartEmpty, CartItem} from "../components";
 import { selectCart } from "../redux/cart/selectors";
 import { clearItems } from "../redux/cart/slice";
+import "../scss/components/_cart.scss";
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
@@ -102,12 +102,12 @@ const Cart: React.FC = () => {
             <span>Очистить корзину</span>
           </div>
         </div>
-        <div className="content__items">
+        <div className="content__items ">
           {items.map((item: any) => (
             <CartItem key={`${item.id}-${item.size}-${item.type}`} {...item} />
           ))}
         </div>
-        <div className="cart__bottom">
+        <div className="cart__bottom cart__adaptiveBottom">
           <div className="cart__bottom-details">
             <span>
               {" "}

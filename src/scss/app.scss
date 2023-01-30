@@ -161,7 +161,7 @@ body {
       }
     }
   }
-
+ 
   .content__items {
     display: block;
   }
@@ -388,8 +388,8 @@ body {
       font-size: 18px;
     }
 
-    @media (max-width:570px) {
-      h2{
+    @media (max-width: 570px) {
+      h2 {
         font-size: 30px;
       }
       p {

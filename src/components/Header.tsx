@@ -39,7 +39,7 @@ export function Header() {
         </Link>
         {location.pathname !== "/cart" && <Search />}
         <div className="header__cart">
-          {location.pathname !== "/cart" && (
+          
             <Link to="cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
               <div className="button__delimiter"></div>
@@ -74,7 +74,7 @@ export function Header() {
               </svg>
               <span>{totalCount}</span>
             </Link>
-          )}
+          
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectCartItemById } from "../../redux/cart/selectors";
+import { getCartItemsCountById, selectCartItemById } from "../../redux/cart/selectors";
 import { addItem } from "../../redux/cart/slice";
 import { CartItem } from "../../redux/cart/types";
 
@@ -26,10 +26,10 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
 }) => {
   const dispatch = useDispatch();
   const cartItem = useSelector(selectCartItemById(id));
+  const cartItemsCount = useSelector(getCartItemsCountById(id));
+  
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
-
-  const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAdd = () => {
     const item:CartItem = {
@@ -93,7 +93,7 @@ export const PizzaBlock: React.FC<PizzaBlockProps> = ({
             />
           </svg>
           <span>Добавить</span>
-          {addedCount > 0 && <i>{addedCount}</i>}
+          {cartItemsCount > 0 && <i>{cartItemsCount}</i>}
         </button>
       </div>
     </div>
